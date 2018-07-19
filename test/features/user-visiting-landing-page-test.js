@@ -12,7 +12,7 @@ describe('User visits the landing page', () => {
         // Setup
         browser.url('/');
         // Exercise
-        browser.click('a.create-video-button');
+        browser.click('a.input-button');
         // Verification
         assert.include(browser.getText('body'), 'Create');
       });
