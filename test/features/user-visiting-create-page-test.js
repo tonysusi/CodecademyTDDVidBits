@@ -23,7 +23,7 @@ describe('User visits the create page', () => {
       it('and redirects to landing page', () => {
         browser.url('/videos/create.html');
         browser.click('#submit-button');
-        assert.include(browser.getText('body'), 'Home');
+        assert.include(browser.getText('body'), 'Create');
         // assert.include(browser.getText('#videos-container'),'');
       });
     });
