@@ -14,7 +14,22 @@
     </div>
     <div class="contents-container" id="videos-container">
       <h1>Create<h1>
-      <a class="add-video-button" href="/">Add a video</a>
+      <form class="input-form" action="/videos" method="post" >
+        <label class="form-label" for="title">Title</label>
+        <input id="title-input" name="title" maxlength="50" value="My favorite video"/>
+
+        <label class="form-label" for="description">Description</label>
+        <textarea id="description-input" name="description">Just the best video</textarea>
+
+        <label class="form-label" for="imageUrl" >Video Url</label>
+        <input id="url-input" name="url" value="http://placebear.com/g/200/300"/>
+
+        <div class="form-navigation">
+            <button class="input-button" id="submit-button" type="submit">
+              Add a video
+            </button>
+        </div>
+      </form>
     </div>
   </body>
 </html>
