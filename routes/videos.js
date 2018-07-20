@@ -1,8 +1,16 @@
 const Video = require('../models/video');
 const router = require('express').Router();
 
+router.get('/', async (req, res, next) => {
+  res.render('index');
+});
+
 router.get('/videos', async (req, res, next) => {
   res.render('videos');
+});
+
+router.get('/videos/create', async (req, res, next) => {
+  res.render('videos/create');
 });
 
 router.post('/videos', async (req, res, next) => {
@@ -14,7 +22,7 @@ router.post('/videos', async (req, res, next) => {
     res.status(400).render('videos', {newVideo: newVideo});
   } else {
     await newVideo.save();
-    res.status(201).render('videos', {newVideo: newVideo});
+    res.status(201).render('videos/show', {newVideo: newVideo});
   }
 
 
