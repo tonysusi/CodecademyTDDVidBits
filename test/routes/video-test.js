@@ -34,5 +34,18 @@ describe('Server path: /videos', () => {
       assert.isOk(createdVideo, 'Video was not created successfully in the database');
 
     });
+    it('returns video title and description', async () => {
+      const videoToCreate = {
+        title: 'Video Title',
+        description: 'Video Description'
+      };
+      const response = await request(app)
+      .post('/videos')
+      .type('form')
+      .send(videoToCreate);
+
+      assert.include(response.text, videoToCreate.title);
+      assert.include(response.text, videoToCreate.description);
+    });
   });
 });
