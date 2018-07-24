@@ -86,5 +86,17 @@ describe('Server path: /videos', () => {
       assert.equal(response.status, 400);
 
     });
+    it('renders the video form when the title is missing', async () => {
+      const videoToCreate = {
+        title: ''
+      };
+      const response = await request(app)
+      .post('/videos')
+      .type('form')
+      .send(videoToCreate);
+
+      assert.isOk(parseTextFromHTML('input[name="title"]'), 'could not find title input');
+
+    });
   });
 });
