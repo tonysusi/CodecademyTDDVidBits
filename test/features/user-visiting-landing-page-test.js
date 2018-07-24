@@ -1,10 +1,23 @@
 const {assert} = require('chai');
+const {buildVideoObject} = require('../test-utils');
 
 describe('User visits the landing page', () => {
-    describe('views content on first visit', () => {
-      it(' and no videos exist', () => {
+    const videoToCreate = buildVideoObject();
+
+    describe('views content', () => {
+      it('on first visit and no videos exist', () => {
         browser.url('/');
         assert.include(browser.getText('#videos-container'),'');
+      });
+      it('of an existing video', () => {
+        browser.url('/videos/create');
+        browser.setValue('#title-input', videoToCreate.title);
+        browser.click('#submit-button');
+        browser.url('/videos');
+
+        assert.include(browser.getText('#videos-container'), videoToCreate.title);
+        // assert.include(browser.getText('body'), videoToCreate.description);
+
       });
     });
     describe('clicks on button', () => {

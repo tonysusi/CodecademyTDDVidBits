@@ -2,16 +2,23 @@ const Video = require('../models/video');
 const router = require('express').Router();
 
 router.get('/', async (req, res, next) => {
-  res.render('index');
+  const videos = await Video.find({});
+  res.render('videos/index', {videos: videos});
 });
 
 router.get('/videos', async (req, res, next) => {
-  res.render('videos');
+  const videos = await Video.find({});
+  res.render('videos/index', {videos: videos});
 });
 
 router.get('/videos/create', async (req, res, next) => {
   res.render('videos/create');
 });
+
+// router.get('/videos/delete', async (req, res, next) => {
+//   const videos = await Video.deleteMany({});
+//   res.render('videos/create');
+// });
 
 router.post('/videos', async (req, res, next) => {
 
@@ -25,7 +32,7 @@ router.post('/videos', async (req, res, next) => {
     res.status(201).render('videos/show', {newVideo: newVideo});
   }
 
-
 });
+
 
 module.exports = router;
