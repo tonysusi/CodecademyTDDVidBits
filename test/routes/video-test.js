@@ -29,30 +29,30 @@ describe('Server path: /videos', () => {
 
   describe('POST', () => {
     it('posts new video', async () => {
+      const videoToCreate = buildVideoObject();
       const response = await request(app)
-        .post('/videos');
+        .post('/videos')
+        .type('form')
+        .send(videoToCreate);
       assert.equal(response.status, 201);
       // assert.equal(response.headers.location, '/');
     });
-    it('renders an video with a title and description', async () => {
+    it('renders an video with a title', async () => {
       const videoToCreate = {
-        title: 'Video Title',
-        description: 'Video Description'
+        title: 'Video Title'
       };
-
       const response = await request(app)
       .post('/videos')
       .type('form')
       .send(videoToCreate);
 
-      const createdVideo = await Video.findOne(videoToCreate);
+      const createdVideo = await Video.findOne({title: videoToCreate.title});
       assert.isOk(createdVideo, 'Video was not created successfully in the database');
 
     });
-    it('returns video title and description', async () => {
+    it('returns video title', async () => {
       const videoToCreate = {
-        title: 'Video Title',
-        description: 'Video Description'
+        title: 'Video Title'
       };
       const response = await request(app)
       .post('/videos')
@@ -60,20 +60,19 @@ describe('Server path: /videos', () => {
       .send(videoToCreate);
 
       assert.include(response.text, videoToCreate.title);
-      assert.include(response.text, videoToCreate.description);
     });
-    it('no video if no title', async () => {
+    it('does not save video with empty title', async () => {
       const videoToCreate = {
-        description: 'Video Description'
+        title: ''
       };
       const response = await request(app)
       .post('/videos')
       .type('form')
       .send(videoToCreate);
 
-      // console.log(response.text);
+      const listOfVideos = await Video.find({});
 
-      assert.notInclude(response.text, videoToCreate.title);
+      assert.equal(listOfVideos.length, 0);
 
     });
   });

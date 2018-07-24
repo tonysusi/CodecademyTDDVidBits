@@ -21,17 +21,15 @@ router.get('/videos/create', async (req, res, next) => {
 // });
 
 router.post('/videos', async (req, res, next) => {
-
-  const {title, description} = req.body;
-  const newVideo = new Video({title, description});
+  const {title} = req.body;
+  const newVideo = new Video({title});
   newVideo.validateSync();
-  if (newVideo.errors) {
+  if (newVideo.errors || newVideo.title == '') {
     res.status(400).render('videos', {newVideo: newVideo});
   } else {
     await newVideo.save();
     res.status(201).render('videos/show', {newVideo: newVideo});
   }
-
 });
 
 
