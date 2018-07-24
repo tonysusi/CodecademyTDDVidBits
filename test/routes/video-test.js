@@ -61,7 +61,7 @@ describe('Server path: /videos', () => {
 
       assert.include(response.text, videoToCreate.title);
     });
-    it('does not save video with empty title', async () => {
+    it('video not saved with empty title', async () => {
       const videoToCreate = {
         title: ''
       };
@@ -73,6 +73,17 @@ describe('Server path: /videos', () => {
       const listOfVideos = await Video.find({});
 
       assert.equal(listOfVideos.length, 0);
+    });
+    it('video with empty title returns 400', async () => {
+      const videoToCreate = {
+        title: ''
+      };
+      const response = await request(app)
+      .post('/videos')
+      .type('form')
+      .send(videoToCreate);
+
+      assert.equal(response.status, 400);
 
     });
   });
