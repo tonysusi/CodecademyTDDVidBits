@@ -5,13 +5,28 @@ const request = require('supertest');
 const app = require('../../app');
 
 const {connectDatabase, disconnectDatabase} = require('../database-utilities');
-// const {parseTextFromHTML, seedVideoToDatabase} = require('../test-utils');
+const {parseTextFromHTML, seedVideoToDatabase, buildVideoObject} = require('../test-utils');
 
 describe('Server path: /videos', () => {
   beforeEach(connectDatabase);
   afterEach(disconnectDatabase);
 
   // Write your test blocks below:
+  describe('GET', () => {
+    it('renders an existing video', async () => {
+      const videoToCreate = buildVideoObject();
+
+      const response = await request(app)
+      .post('/videos')
+      .type('form')
+      .send(videoToCreate);
+
+      const createdVideo = await Video.findOne({title: videoToCreate.title});
+
+      assert.include(response.text, createdVideo.title);
+    });
+  });
+
   describe('POST', () => {
     it('posts new video', async () => {
       const response = await request(app)
@@ -46,6 +61,20 @@ describe('Server path: /videos', () => {
 
       assert.include(response.text, videoToCreate.title);
       assert.include(response.text, videoToCreate.description);
+    });
+    it('no video if no title', async () => {
+      const videoToCreate = {
+        description: 'Video Description'
+      };
+      const response = await request(app)
+      .post('/videos')
+      .type('form')
+      .send(videoToCreate);
+
+      // console.log(response.text);
+
+      assert.notInclude(response.text, videoToCreate.title);
+
     });
   });
 });
