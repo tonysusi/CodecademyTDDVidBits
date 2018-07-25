@@ -8,6 +8,7 @@ router.get('/', async (req, res, next) => {
 
 router.get('/videos', async (req, res, next) => {
   const videos = await Video.find({});
+  console.log('videos',videos);
   res.render('videos/index', {videos: videos});
 });
 
@@ -27,8 +28,8 @@ router.get('/videos/:id', async (req, res, next) => {
 // });
 
 router.post('/videos', async (req, res, next) => {
-  const {title, description, videoUrl} = req.body;
-  const newVideo = new Video({title, description, videoUrl});
+  const {title, description, url} = req.body;
+  const newVideo = new Video({title, description, url});
   if (newVideo.title == '') {
     res.status(400).render('videos/create',{error: 'title is required', video: newVideo});
   } else {

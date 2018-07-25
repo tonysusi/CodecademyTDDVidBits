@@ -23,6 +23,8 @@ describe('Server path: /videos', () => {
       const createdVideo = await Video.findOne({title: videoToCreate.title});
 
       assert.include(response.text, createdVideo.title);
+      assert.include(response.text, createdVideo.description);
+      assert.include(response.text, createdVideo.url);
     });
   });
   describe('POST', () => {
@@ -121,8 +123,11 @@ describe('Server path: /videos', () => {
       .type('form')
       .send(videoToCreate);
 
-      // assert.deepEqual(videoToCreate, 'videoUrl');
-      assert.hasAnyKeys(videoToCreate, ['videoUrl']);
+      const createdVideo = await Video.findOne({title: videoToCreate.title});
+
+      assert.equal(videoToCreate.title, createdVideo.title);
+      assert.equal(videoToCreate.description, createdVideo.description);
+      assert.equal(videoToCreate.url, createdVideo.url);
     });
   });
 });

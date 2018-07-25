@@ -5,9 +5,9 @@ const Video = require('../models/video');
 // Create and return a sample Video object
 const buildVideoObject = (options = {}) => {
   const title = options.title || 'My favorite video';
-  const videoUrl = options.videoUrl || 'http://placebear.com/g/200/300';
+  const url = options.url || 'http://placebear.com/g/200/300';
   const description = options.description || 'Just the best video';
-  return {title, videoUrl, description};
+  return {title, url, description};
   // return {title,description};
 };
 

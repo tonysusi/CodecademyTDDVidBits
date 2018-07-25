@@ -9,23 +9,16 @@ describe('User visits the landing page', () => {
         browser.url('/');
         assert.include(browser.getText('#videos-container'),'');
       });
-      it('of an existing video title', () => {
+      it('of an existing video data', () => {
         browser.url('/videos/create');
         browser.setValue('#title-input', videoToCreate.title);
+        browser.setValue('#description-input', videoToCreate.description);
+        browser.setValue('#url-input', videoToCreate.url);
         browser.click('#submit-button');
         browser.url('/videos');
 
         assert.include(browser.getText('#videos-container'), videoToCreate.title);
-      });
-      it('of an existing video url', () => {
-        browser.url('/videos/create');
-        browser.setValue('#url-input', videoToCreate.videoUrl);
-        browser.click('#submit-button');
-        browser.url('/videos');
-
-        // console.log(browser.getText('.video-player'));
-
-        assert.include(browser.getHTML('#videos-container'), videoToCreate.videoUrl);
+        assert.include(browser.getHTML('#videos-container'), videoToCreate.url);
       });
     });
     describe('clicks on button', () => {
