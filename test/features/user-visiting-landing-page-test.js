@@ -1,30 +1,46 @@
 const {assert} = require('chai');
 const {buildVideoObject} = require('../test-utils');
 
+const postVideoData = () => {
+  const videoToCreate = buildVideoObject();
+  browser.url('/videos/create');
+  browser.setValue('#title-input', videoToCreate.title);
+  browser.setValue('#description-input', videoToCreate.description);
+  browser.setValue('#url-input', videoToCreate.url);
+  browser.click('#submit-button');
+  return videoToCreate;
+};
+
 describe('User visits the landing page', () => {
-    const videoToCreate = buildVideoObject();
+    // const videoToCreate = buildVideoObject();
     const generateRandomUrl = (domain) => {
       return `http://${domain}/${Math.random()}`;
     };
 
-    describe('views content', () => {
-      it('on first visit and no videos exist', () => {
+    describe('on first visit', () => {
+      it('no videos are present', () => {
         browser.url('/');
         assert.include(browser.getText('#videos-container'),'');
       });
-      it('of an existing video data', () => {
-        browser.url('/videos/create');
-        browser.setValue('#title-input', videoToCreate.title);
-        browser.setValue('#description-input', videoToCreate.description);
-        browser.setValue('#url-input', videoToCreate.url);
-        browser.click('#submit-button');
+    });
+    describe('with existing videos', () => {
+      it('video title and url are rendered', () => {
+        const videoToCreate = postVideoData();
         browser.url('/videos');
 
         assert.include(browser.getText('#videos-container'), videoToCreate.title);
         assert.include(browser.getHTML('#videos-container'), videoToCreate.url);
       });
+      it('can navigate to a video', () => {
+        const videoToCreate = postVideoData();
+        browser.url('/videos');
+        browser.click('.video-title a');
+
+        assert.include(browser.getText('#videos-container'), videoToCreate.title);
+        assert.include(browser.getHTML('#videos-container'), videoToCreate.url);
+      });
     });
-    describe('clicks on button', () => {
+    describe('clicks on "Save a video" button', () => {
       it('navigates to create page', () => {
         // Setup
         browser.url('/');

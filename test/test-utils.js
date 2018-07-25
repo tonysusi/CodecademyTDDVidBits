@@ -1,4 +1,5 @@
 const {jsdom} = require('jsdom');
+const {assert} = require('chai');
 
 const Video = require('../models/video');
 
