@@ -114,6 +114,16 @@ describe('Server path: /videos', () => {
 
       assert.include(response.text, 'title is required');
     });
+    it('saves a Video document', async () => {
+      const videoToCreate = buildVideoObject();
+      const response = await request(app)
+      .post('/videos')
+      .type('form')
+      .send(videoToCreate);
+
+      // assert.deepEqual(videoToCreate, 'videoUrl');
+      assert.hasAnyKeys(videoToCreate, ['videoUrl']);
+    });
   });
 });
 

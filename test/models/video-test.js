@@ -29,16 +29,16 @@ describe('Model: Video', () => {
     //   assert.equal(item.errors.title.message, 'Path `title` is required.');
     // });
   });
-  // describe('#description', () => {
-  //   it('is a String', () => {
-  //     const descriptionAsNonString = 1;
-  //     const video = new Video({title: descriptionAsNonString});
-  //     assert.strictEqual(video.title, descriptionAsNonString.toString());
-  //   });
+  describe('#description', () => {
+    it('is a String', () => {
+      const descriptionAsNonString = 1;
+      const video = new Video({title: descriptionAsNonString});
+      assert.strictEqual(video.title, descriptionAsNonString.toString());
+    });
   //   // it('is required', () => {
   //   //   const item = new Item({});
   //   //   item.validateSync();
   //   //   assert.equal(item.errors.title.message, 'Path `title` is required.');
   //   // });
-  // });
+  });
 });

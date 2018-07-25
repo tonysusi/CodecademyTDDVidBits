@@ -27,8 +27,8 @@ router.get('/videos/:id', async (req, res, next) => {
 // });
 
 router.post('/videos', async (req, res, next) => {
-  const {title} = req.body;
-  const newVideo = new Video({title});
+  const {title, description, videoUrl} = req.body;
+  const newVideo = new Video({title, description, videoUrl});
   if (newVideo.title == '') {
     res.status(400).render('videos/create',{error: 'title is required', video: newVideo});
   } else {
