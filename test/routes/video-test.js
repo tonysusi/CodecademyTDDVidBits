@@ -32,7 +32,7 @@ describe('Server path: /videos', () => {
         .post('/videos')
         .type('form')
         .send(videoToCreate);
-      assert.equal(response.status, 201);
+      assert.equal(response.status, 302);
       // assert.equal(response.headers.location, '/');
     });
     it('renders an video with a title', async () => {
