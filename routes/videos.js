@@ -15,6 +15,12 @@ router.get('/videos/create', async (req, res, next) => {
   res.render('videos/create');
 });
 
+router.get('/videos/:id', async (req, res, next) => {
+  const videoId = req.params.id;
+  const singleVideo = await Video.findById(videoId);
+  res.render('videos/show', {newVideo: singleVideo});
+});
+
 // router.get('/videos/delete', async (req, res, next) => {
 //   const videos = await Video.deleteMany({});
 //   res.render('videos/create');

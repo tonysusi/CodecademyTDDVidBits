@@ -11,7 +11,6 @@ describe('Server path: /videos', () => {
   beforeEach(connectDatabase);
   afterEach(disconnectDatabase);
 
-  // Write your test blocks below:
   describe('GET', () => {
     it('renders an existing video', async () => {
       const videoToCreate = buildVideoObject();
@@ -26,7 +25,6 @@ describe('Server path: /videos', () => {
       assert.include(response.text, createdVideo.title);
     });
   });
-
   describe('POST', () => {
     it('posts new video', async () => {
       const videoToCreate = buildVideoObject();
@@ -115,6 +113,29 @@ describe('Server path: /videos', () => {
       .send(videoToCreate);
 
       assert.include(response.text, 'title is required');
+    });
+  });
+});
+
+describe('Server path: /videos/:id', () => {
+  beforeEach(connectDatabase);
+  afterEach(disconnectDatabase);
+
+  describe('GET', () => {
+    it('renders video with this id', async () => {
+      const videoToCreate = buildVideoObject();
+
+      const response = await request(app)
+      .post('/videos')
+      .type('form')
+      .send(videoToCreate);
+
+      const createdVideo = await Video.findOne({title: videoToCreate.title});
+      const videoShow = await request(app)
+      .get('/videos/'+createdVideo._id);
+
+      // assert.equal(createdVideo._id, videoShow.text);
+      assert.include(videoShow.text, videoToCreate.title);
     });
   });
 });

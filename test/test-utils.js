@@ -8,7 +8,7 @@ const buildVideoObject = (options = {}) => {
   const videoUrl = options.videoUrl || 'http://placebear.com/g/200/300';
   const description = options.description || 'Just the best video';
   // return {title, videoUrl, description};
-  return {title};
+  return {title,description};
 };
 
 // Add a sample Video object to mongodb
