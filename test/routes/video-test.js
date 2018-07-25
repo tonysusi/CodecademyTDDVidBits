@@ -129,6 +129,21 @@ describe('Server path: /videos', () => {
       assert.equal(videoToCreate.description, createdVideo.description);
       assert.equal(videoToCreate.url, createdVideo.url);
     });
+    it('video url is dynamic', async () => {
+      const randomURL = `http://youtube.com/${Math.random()}`;
+      const videoToCreate = buildVideoObject({url:randomURL});
+      const response = await request(app)
+      .post('/videos')
+      .type('form')
+      .send(videoToCreate);
+
+      const createdVideo = await Video.findOne({title: videoToCreate.title});
+      const videoShow = await request(app)
+      .get('/videos');
+
+      // assert.equal(createdVideo._id, videoShow.text);
+      assert.include(videoShow.text, videoToCreate.url);
+    });
   });
 });
 

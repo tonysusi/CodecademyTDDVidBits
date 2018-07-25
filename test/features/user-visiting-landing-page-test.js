@@ -3,6 +3,9 @@ const {buildVideoObject} = require('../test-utils');
 
 describe('User visits the landing page', () => {
     const videoToCreate = buildVideoObject();
+    const generateRandomUrl = (domain) => {
+      return `http://${domain}/${Math.random()}`;
+    };
 
     describe('views content', () => {
       it('on first visit and no videos exist', () => {

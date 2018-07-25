@@ -8,7 +8,6 @@ router.get('/', async (req, res, next) => {
 
 router.get('/videos', async (req, res, next) => {
   const videos = await Video.find({});
-  console.log('videos',videos);
   res.render('videos/index', {videos: videos});
 });
 
