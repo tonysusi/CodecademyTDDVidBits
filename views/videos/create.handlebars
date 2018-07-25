@@ -6,10 +6,10 @@
       <span>{{error}}</span>
     {{/if}}
     <label class="form-label" for="title">Title</label>
-    <input id="title-input" name="title" maxlength="50" value=""/>
+    <input id="title-input" name="title" maxlength="50" value="{{video.title}}"/>
 
     <label class="form-label" for="description">Description</label>
-    <textarea id="description-input" name="description"></textarea>
+    <textarea name=“description”>{{video.description}}</textarea>
 
     <label class="form-label" for="imageUrl" >Video Url</label>
     <input id="url-input" name="url" value=""/>

@@ -105,5 +105,16 @@ describe('Server path: /videos', () => {
 
       assert.include(response.text, 'title is required');
     });
+    it('when the title is missing, data stays in form', async () => {
+      const videoToCreate = {
+        title: ''
+      };
+      const response = await request(app)
+      .post('/videos')
+      .type('form')
+      .send(videoToCreate);
+
+      assert.include(response.text, 'title is required');
+    });
   });
 });
