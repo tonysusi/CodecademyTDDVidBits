@@ -9,15 +9,21 @@ describe('User visits the landing page', () => {
         browser.url('/');
         assert.include(browser.getText('#videos-container'),'');
       });
-      it('of an existing video', () => {
+      it('of an existing video title', () => {
         browser.url('/videos/create');
         browser.setValue('#title-input', videoToCreate.title);
         browser.click('#submit-button');
         browser.url('/videos');
 
         assert.include(browser.getText('#videos-container'), videoToCreate.title);
-        // assert.include(browser.getText('body'), videoToCreate.description);
+      });
+      it('of an existing video url', () => {
+        browser.url('/videos/create');
+        browser.setValue('#url-input', videoToCreate.videoUrl);
+        browser.click('#submit-button');
+        browser.url('/videos');
 
+        assert.include(browser.getText('#videos-container'), videoToCreate.videoUrl);
       });
     });
     describe('clicks on button', () => {

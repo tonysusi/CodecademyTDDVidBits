@@ -2,10 +2,10 @@
   <h1>Home<h1>
     {{#each videos as |video|}}
     <div class="video-card">
-      {{video._id}}
     <div class="video-title">
       {{video.title}}
      </div>
+     <!-- <iframe class="video-player" src="http://example.com" frameborder="0" allowfullscreen></iframe> -->
     </div>
     {{/each}}
   <a class="input-button" href="/videos/create">Save a video</a>
