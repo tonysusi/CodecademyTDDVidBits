@@ -144,6 +144,19 @@ describe('Server path: /videos', () => {
       // assert.equal(createdVideo._id, videoShow.text);
       assert.include(videoShow.text, videoToCreate.url);
     });
+    it('error with missing url', async () => {
+
+      const videoToCreate = buildVideoObject({url:null});
+      const response = await request(app)
+      .post('/videos')
+      .type('form')
+      .send(videoToCreate);
+
+      const videoShow = await request(app)
+      .get('/videos/create');
+
+      assert.include(videoShow.text, 'error');
+    });
   });
 });
 
