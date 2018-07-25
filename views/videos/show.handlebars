@@ -1,13 +1,13 @@
 <div class="contents-container" id="videos-container">
   <h1>Show<h1>
     <div class="video-card">
-      <iframe class="video-player" src="{{newVideo.url}}" frameborder="0" allowfullscreen></iframe>
       <!-- <iframe class="video-player" src="https://www.youtube.com/embed/6lutNECOZFw" frameborder="0" allowfullscreen></iframe> -->
       <div class="video-title">
-        {{newVideo.title}}
+        <h1>{{newVideo.title}}</h1>
       </div>
+      <iframe class="video-player" src="{{newVideo.url}}" frameborder="0" allowfullscreen></iframe>
       <div class="video-description">
-        {{newVideo.description}}
+        <p>{{newVideo.description}}</p>
       </div>
     </div>
   <a class="add-video-button" href="/videos/create">Add a video</a>

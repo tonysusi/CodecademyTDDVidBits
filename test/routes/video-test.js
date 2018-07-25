@@ -152,7 +152,7 @@ describe('Server path: /videos/:id', () => {
   afterEach(disconnectDatabase);
 
   describe('GET', () => {
-    it('renders video with this id', async () => {
+    it('renders video with title and url', async () => {
       const videoToCreate = buildVideoObject();
 
       const response = await request(app)
@@ -166,6 +166,7 @@ describe('Server path: /videos/:id', () => {
 
       // assert.equal(createdVideo._id, videoShow.text);
       assert.include(videoShow.text, videoToCreate.title);
+      assert.include(videoShow.text, videoToCreate.url);
     });
   });
 });
