@@ -23,7 +23,9 @@ describe('User visits the landing page', () => {
         browser.click('#submit-button');
         browser.url('/videos');
 
-        assert.include(browser.getText('#videos-container'), videoToCreate.videoUrl);
+        // console.log(browser.getText('.video-player'));
+
+        assert.include(browser.getHTML('#videos-container'), videoToCreate.videoUrl);
       });
     });
     describe('clicks on button', () => {
