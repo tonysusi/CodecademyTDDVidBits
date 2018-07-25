@@ -48,7 +48,6 @@ describe('Server path: /videos', () => {
 
       const createdVideo = await Video.findOne({title: videoToCreate.title});
       assert.isOk(createdVideo, 'Video was not created successfully in the database');
-
     });
     it('returns video title', async () => {
       const videoToCreate = {
@@ -69,12 +68,11 @@ describe('Server path: /videos', () => {
       .post('/videos')
       .type('form')
       .send(videoToCreate);
-
       const listOfVideos = await Video.find({});
 
       assert.equal(listOfVideos.length, 0);
     });
-    it('video with empty title returns 400', async () => {
+    it('when the title is missing, 400 response', async () => {
       const videoToCreate = {
         title: ''
       };
@@ -84,9 +82,8 @@ describe('Server path: /videos', () => {
       .send(videoToCreate);
 
       assert.equal(response.status, 400);
-
     });
-    it('renders the video form when the title is missing', async () => {
+    it('when the title is missing, redirects to video/create', async () => {
       const videoToCreate = {
         title: ''
       };
@@ -95,8 +92,18 @@ describe('Server path: /videos', () => {
       .type('form')
       .send(videoToCreate);
 
-      assert.isOk(parseTextFromHTML('input[name="title"]'), 'could not find title input');
+      assert.include(response.text, 'Create');
+    });
+    it('when the title is missing, error message is displayed', async () => {
+      const videoToCreate = {
+        title: ''
+      };
+      const response = await request(app)
+      .post('/videos')
+      .type('form')
+      .send(videoToCreate);
 
+      assert.include(response.text, 'title is required');
     });
   });
 });

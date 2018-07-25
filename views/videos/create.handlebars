@@ -2,6 +2,9 @@
 <div class="contents-container" id="videos-container">
   <h1>Create<h1>
   <form class="input-form" action="/videos" method="post" >
+    {{#if error}}
+      <span>{{error}}</span>
+    {{/if}}
     <label class="form-label" for="title">Title</label>
     <input id="title-input" name="title" maxlength="50" value=""/>
 

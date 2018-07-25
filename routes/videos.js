@@ -24,14 +24,15 @@ router.post('/videos', async (req, res, next) => {
   const {title} = req.body;
   const newVideo = new Video({title});
   if (newVideo.title == '') {
-    res.status(400).render('videos/create');
-  }
-  newVideo.validateSync();
-  if (newVideo.errors || newVideo.title == '') {
-    res.status(400).render('videos', {newVideo: newVideo});
+    res.status(400).render('videos/create',{error: 'title is required'});
   } else {
-    await newVideo.save();
-    res.status(201).render('videos/show', {newVideo: newVideo});
+    newVideo.validateSync();
+    if (newVideo.errors || newVideo.title == '') {
+      res.status(400).render('videos', {newVideo: newVideo});
+    } else {
+      await newVideo.save();
+      res.status(201).render('videos/show', {newVideo: newVideo});
+    }
   }
 });
 
