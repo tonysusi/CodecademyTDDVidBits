@@ -47,10 +47,10 @@ describe('Model: Video', () => {
       const video = new Video({title: descriptionAsNonString});
       assert.strictEqual(video.title, descriptionAsNonString.toString());
     });
-  //   // it('is required', () => {
-  //   //   const item = new Item({});
-  //   //   item.validateSync();
-  //   //   assert.equal(item.errors.title.message, 'Path `title` is required.');
-  //   // });
+    it('is required', () => {
+      const video = new Video({});
+      video.validateSync();
+      assert.equal(video.errors.url.message, 'Path `url` is required.');
+    });
   });
 });
