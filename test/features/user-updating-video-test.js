@@ -24,8 +24,26 @@ describe('User visits the update page', () => {
         browser.setValue('#description-input', newDescription);
         browser.setValue('#url-input', newUrl);
         browser.click('#submit-button');
-        
+
         assert.include(browser.getText('body'), newTitle);
+      });
+      it('the video is updated, not created', () => {
+        const newTitle = 'New Title';
+        const newDescription = 'New Description';
+        const newUrl = 'New Url';
+        const videoToCreate = postVideoData();
+
+        browser.click('#edit');
+        browser.setValue('#title-input', newTitle);
+        browser.setValue('#description-input', newDescription);
+        browser.setValue('#url-input', newUrl);
+        browser.click('#submit-button');
+        browser.url('/videos');
+
+        assert.include(browser.getText('body'), newTitle);
+        assert.notInclude(browser.getText('body'), videoToCreate.title);
+
+
       });
     });
 });

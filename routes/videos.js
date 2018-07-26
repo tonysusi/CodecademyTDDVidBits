@@ -31,7 +31,7 @@ router.get('/videos/:id/delete', async (req, res, next) => {
 router.get('/videos/:id/edit', async (req, res, next) => {
   const videoId = req.params.id;
   const video = await Video.findById(videoId);
-  res.render('videos/create', {video: video});
+  res.render('videos/edit', {video: video});
 });
 
 router.post('/videos', async (req, res, next) => {
