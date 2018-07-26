@@ -8,6 +8,8 @@ describe('User visits the create page', () => {
       it('and enter title', () => {
         browser.url('/videos/create');
         browser.setValue('#title-input', videoToCreate.title);
+        browser.setValue('#description-input', videoToCreate.description);
+        browser.setValue('#url-input', videoToCreate.url);
         browser.click('#submit-button')
 
         assert.include(browser.getText('body'), videoToCreate.title);
@@ -15,6 +17,8 @@ describe('User visits the create page', () => {
       it('and redirects to show page', () => {
         browser.url('/videos/create');
         browser.setValue('#title-input', videoToCreate.title);
+        browser.setValue('#description-input', videoToCreate.description);
+        browser.setValue('#url-input', videoToCreate.url);
         browser.click('#submit-button');
 
         assert.include(browser.getText('body'), 'Show');
