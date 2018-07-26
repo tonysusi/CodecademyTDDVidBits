@@ -172,3 +172,26 @@ describe('Server path: /videos/:id', () => {
     });
   });
 });
+
+describe('Server path: /videos/:id/edit', () => {
+  beforeEach(connectDatabase);
+  afterEach(disconnectDatabase);
+
+  describe('GET', () => {
+    it('renders a form for the Video', async () => {
+      const videoToCreate = buildVideoObject();
+
+      const response = await request(app)
+      .post('/videos')
+      .type('form')
+      .send(videoToCreate);
+
+      const createdVideo = await Video.findOne({title: videoToCreate.title});
+      const videoEdit = await request(app)
+      .get('/videos/'+createdVideo._id+'/edit');
+
+      assert.include(videoEdit.text, videoToCreate.title);
+      assert.include(videoEdit.text, videoToCreate.url);
+    });
+  });
+});

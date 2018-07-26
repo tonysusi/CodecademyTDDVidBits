@@ -28,6 +28,12 @@ router.get('/videos/:id/delete', async (req, res, next) => {
   res.render('videos/create', {error:'Deleted '+ videoId});
 });
 
+router.get('/videos/:id/edit', async (req, res, next) => {
+  const videoId = req.params.id;
+  const video = await Video.findById(videoId);
+  res.render('videos/create', {video: video});
+});
+
 router.post('/videos', async (req, res, next) => {
   const {title, description, url} = req.body;
   const newVideo = new Video({title, description, url});
