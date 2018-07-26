@@ -22,7 +22,6 @@ describe('User visits the create page', () => {
         browser.click('#submit-button');
 
         assert.include(browser.getText('body'), 'Show');
-        // assert.include(browser.getText('#videos-container'),'');
       });
     });
 });

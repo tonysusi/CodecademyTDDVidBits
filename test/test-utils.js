@@ -28,6 +28,16 @@ const parseTextFromHTML = (htmlAsString, selector) => {
   }
 };
 
+const postVideoData = (videoToCreate) => {
+  // const videoToCreate = buildVideoObject();
+  browser.url('/videos/create');
+  browser.setValue('#title-input', videoToCreate.title);
+  browser.setValue('#description-input', videoToCreate.description);
+  browser.setValue('#url-input', videoToCreate.url);
+  browser.click('#submit-button');
+  return videoToCreate;
+};
+
 module.exports = {
   buildVideoObject,
   seedVideoToDatabase,
