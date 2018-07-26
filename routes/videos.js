@@ -21,16 +21,20 @@ router.get('/videos/:id', async (req, res, next) => {
   res.render('videos/show', {newVideo: singleVideo});
 });
 
-// router.get('/videos/delete', async (req, res, next) => {
-//   const videos = await Video.deleteMany({});
-//   res.render('videos/create');
-// });
+// remove one video
+router.get('/videos/:id/delete', async (req, res, next) => {
+  const videoId = req.params.id;
+  const videos = await Video.deleteOne({id:videoId});
+  res.render('videos/create', {error:'Deleted '+ videoId});
+});
 
 router.post('/videos', async (req, res, next) => {
   const {title, description, url} = req.body;
   const newVideo = new Video({title, description, url});
   if (newVideo.title == '') {
     res.status(400).render('videos/create',{error: 'title is required', video: newVideo});
+  } else if (newVideo.url == '') {
+    res.status(400).render('videos/create',{error: 'url is required', video: newVideo});
   } else {
     newVideo.validateSync();
     // console.log(newVideo.errors);

@@ -7,6 +7,14 @@ const app = require('../../app');
 const {connectDatabase, disconnectDatabase} = require('../database-utilities');
 const {parseTextFromHTML, seedVideoToDatabase, buildVideoObject} = require('../test-utils');
 
+const emptyTitleVideo = { title: '',
+  url: 'http://placebear.com/g/200/300',
+  description: 'Just the best video' };
+
+const emptyUrlVideo = { title: 'My favorite video',
+  url: '',
+  description: 'Just the best video' };
+
 describe('Server path: /videos', () => {
   beforeEach(connectDatabase);
   afterEach(disconnectDatabase);
@@ -38,9 +46,7 @@ describe('Server path: /videos', () => {
       // assert.equal(response.headers.location, '/');
     });
     it('renders an video with a title', async () => {
-      const videoToCreate = {
-        title: 'Video Title'
-      };
+      const videoToCreate = buildVideoObject();
       const response = await request(app)
       .post('/videos')
       .type('form')
@@ -50,9 +56,7 @@ describe('Server path: /videos', () => {
       assert.isOk(createdVideo, 'Video was not created successfully in the database');
     });
     it('returns video title', async () => {
-      const videoToCreate = {
-        title: 'Video Title'
-      };
+      const videoToCreate = buildVideoObject();
       const response = await request(app)
       .post('/videos')
       .type('form')
@@ -61,9 +65,7 @@ describe('Server path: /videos', () => {
       assert.include(response.text, videoToCreate.title);
     });
     it('video not saved with empty title', async () => {
-      const videoToCreate = {
-        title: ''
-      };
+      const videoToCreate = emptyTitleVideo;
       const response = await request(app)
       .post('/videos')
       .type('form')
@@ -73,9 +75,7 @@ describe('Server path: /videos', () => {
       assert.equal(listOfVideos.length, 0);
     });
     it('when the title is missing, 400 response', async () => {
-      const videoToCreate = {
-        title: ''
-      };
+      const videoToCreate = emptyTitleVideo;
       const response = await request(app)
       .post('/videos')
       .type('form')
@@ -84,9 +84,7 @@ describe('Server path: /videos', () => {
       assert.equal(response.status, 400);
     });
     it('when the title is missing, redirects to video/create', async () => {
-      const videoToCreate = {
-        title: ''
-      };
+      const videoToCreate = emptyTitleVideo;
       const response = await request(app)
       .post('/videos')
       .type('form')
@@ -95,9 +93,7 @@ describe('Server path: /videos', () => {
       assert.include(response.text, 'Create');
     });
     it('when the title is missing, error message is displayed', async () => {
-      const videoToCreate = {
-        title: ''
-      };
+      const videoToCreate = emptyTitleVideo;
       const response = await request(app)
       .post('/videos')
       .type('form')
@@ -106,15 +102,22 @@ describe('Server path: /videos', () => {
       assert.include(response.text, 'title is required');
     });
     it('when the title is missing, data stays in form', async () => {
-      const videoToCreate = {
-        title: ''
-      };
+      const videoToCreate = emptyTitleVideo;
       const response = await request(app)
       .post('/videos')
       .type('form')
       .send(videoToCreate);
 
       assert.include(response.text, 'title is required');
+    });
+    it('when the url is missing, error message is displayed', async () => {
+      const videoToCreate = emptyUrlVideo;
+      const response = await request(app)
+      .post('/videos')
+      .type('form')
+      .send(videoToCreate);
+
+      assert.include(response.text, 'url is required');
     });
     it('saves a Video document', async () => {
       const videoToCreate = buildVideoObject();
@@ -141,21 +144,7 @@ describe('Server path: /videos', () => {
       const videoShow = await request(app)
       .get('/videos');
 
-      // assert.equal(createdVideo._id, videoShow.text);
       assert.include(videoShow.text, videoToCreate.url);
-    });
-    it('error with missing url', async () => {
-
-      const videoToCreate = buildVideoObject({url:null});
-      const response = await request(app)
-      .post('/videos')
-      .type('form')
-      .send(videoToCreate);
-
-      const videoShow = await request(app)
-      .get('/videos/create');
-
-      assert.include(videoShow.text, 'error');
     });
   });
 });
