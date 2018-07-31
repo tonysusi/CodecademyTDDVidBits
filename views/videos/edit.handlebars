@@ -1,9 +1,9 @@
 
 <div class="contents-container" id="videos-container">
   <h1>Edit<h1>
-  <form class="input-form" action="/updates" method="post" >
+  <form class="input-form" action="/videos/{{newVideo._id}}/updates" method="post" >
     {{#if error}}
-      <span>{{error}}</span>
+      <span class="error">{{error}}</span>
     {{/if}}
     <label class="form-label" for="title">Title</label>
     <input id="title-input" name="title" maxlength="50" value="{{video.title}}"/>

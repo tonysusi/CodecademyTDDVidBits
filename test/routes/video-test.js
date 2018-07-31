@@ -35,6 +35,7 @@ describe('Server path: /videos', () => {
       assert.include(response.text, createdVideo.url);
     });
   });
+
   describe('POST', () => {
     it('posts new video', async () => {
       const videoToCreate = buildVideoObject();
@@ -192,6 +193,124 @@ describe('Server path: /videos/:id/edit', () => {
 
       assert.include(videoEdit.text, videoToCreate.title);
       assert.include(videoEdit.text, videoToCreate.url);
+    });
+  });
+});
+
+describe('Server path: /videos/:id/updates', () => {
+  beforeEach(connectDatabase);
+  afterEach(disconnectDatabase);
+
+  describe('POST', () => {
+    it('renders a form for the Video', async () => {
+
+      const newTitle = 'New Title';
+      const newDescription = 'New Description';
+      const newUrl = 'New Url';
+      const videoToUpdate = {
+        title: newTitle,
+        description: newDescription,
+        url: newUrl
+      }
+
+      const videoToCreate = await seedVideoToDatabase();
+
+      const response = await request(app)
+      .post('/videos/'+videoToCreate._id+'/updates')
+      .type('form')
+      .send(videoToUpdate);
+
+      const videoList = await request(app)
+      .get('/videos/');
+
+      assert.notInclude(videoList.text, videoToCreate.title);
+      assert.include(videoList.text, videoToUpdate.title);
+    });
+    it('updates the Video', async () => {
+      const videoToCreate = buildVideoObject();
+
+      const response = await request(app)
+      .post('/videos')
+      .type('form')
+      .send(videoToCreate);
+
+      const createdVideo = await Video.findOne({title: videoToCreate.title});
+      const videoToUpdate = buildVideoObject({title: 'New Title', url:'New Url'})
+
+      const videoEdit = await request(app)
+      .post('/videos/'+createdVideo._id+'/edit')
+      .type('form')
+      .send(videoToUpdate);
+
+      assert.notInclude(videoEdit.text, videoToCreate.title);
+      assert.notInclude(videoEdit.text, videoToCreate.url);
+    });
+    it('Upon updating, redirection to show page', async () => {
+      const videoToCreate = buildVideoObject();
+
+      const firstResponse = await request(app)
+      .post('/videos')
+      .type('form')
+      .send(videoToCreate);
+
+      const createdVideo = await Video.findOne({title: videoToCreate.title});
+      const videoToUpdate = buildVideoObject({title: 'New Title', url:'New Url'})
+
+      const response = await request(app)
+      .post('/videos/'+createdVideo._id+'/updates')
+      .type('form')
+      .send(videoToUpdate);
+
+      assert.equal(response.status, 302);
+      // assert.equal(response.headers.location, '/videos/'+createdVideo._id); TODO send out headers ('videos/:id')
+    });
+    it('when the record is invalid does not save the record', async () => {
+      const videoToCreate = buildVideoObject();
+      const firstResponse = await request(app)
+      .post('/videos')
+      .type('form')
+      .send(videoToCreate);
+
+      const createdVideo = await Video.findOne({title: videoToCreate.title});
+      const videoNoTitle = buildVideoObject({title: ''});
+      const videoNoUrl = buildVideoObject({url:''});
+
+      const responseNoTitle = await request(app)
+      .post('/videos/'+createdVideo._id+'/updates')
+      .type('form')
+      .send(videoNoTitle);
+
+      const responseNoUrl = await request(app)
+      .post('/videos/'+createdVideo._id+'/updates')
+      .type('form')
+      .send(videoNoUrl);
+
+      assert.include(responseNoTitle.text, 'html'); // TODO step 43
+      assert.include(responseNoUrl.text, 'html'); // TODO step 43
+    });
+  });
+});
+
+
+describe('Server path: /videos/:id/delete', () => {
+  beforeEach(connectDatabase);
+  afterEach(disconnectDatabase);
+
+  describe('POST', () => {
+    it('deletes video', async () => {
+      const videoToCreate = buildVideoObject();
+
+      const response = await request(app)
+      .post('/videos')
+      .type('form')
+      .send(videoToCreate);
+
+      const createdVideo = await Video.findOne({title: videoToCreate.title});
+      const deletedVideo = await request(app)
+      .post('/videos/'+createdVideo._id+'/delete');
+
+      assert.equal(deletedVideo.status, 302);
+      assert.equal(deletedVideo.headers.location, '/videos');
     });
   });
 });

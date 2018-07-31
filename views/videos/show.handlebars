@@ -1,5 +1,5 @@
 <div class="contents-container" id="videos-container">
-  <h1>Show<h1>
+  <h1>Show</h1>
     <div class="video-card">
       <!-- <iframe class="video-player" src="https://www.youtube.com/embed/6lutNECOZFw" frameborder="0" allowfullscreen></iframe> -->
       <div class="video-title">
@@ -11,4 +11,7 @@
       </div>
     </div>
   <a class="add-video-button" id="edit" href="/videos/{{newVideo._id}}/edit">Edit video</a>
+  <form action="/videos/{{newVideo._id}}/delete" method="post" >
+    <input id="delete" type="submit" value="Delete video">
+  </form>
 </div>

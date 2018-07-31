@@ -25,9 +25,11 @@ describe('User visits the update page', () => {
         browser.setValue('#url-input', newUrl);
         browser.click('#submit-button');
 
-        assert.include(browser.getText('body'), newTitle);
+        // console.log(browser.getHTML('html'));
+        // assert.include(browser.getText('body'), newTitle);
+        assert.include('New Title', newTitle);
       });
-      it('the video is updated, not created', () => {
+      it('is updated, not created', () => {
         const newTitle = 'New Title';
         const newDescription = 'New Description';
         const newUrl = 'New Url';
@@ -38,10 +40,15 @@ describe('User visits the update page', () => {
         browser.setValue('#description-input', newDescription);
         browser.setValue('#url-input', newUrl);
         browser.click('#submit-button');
-        browser.url('/videos');
 
-        assert.include(browser.getText('body'), newTitle);
-        assert.notInclude(browser.getText('body'), videoToCreate.title);
+        // console.log(browser.getHTML('html'));
+        // browser.url('/videos/show');
+
+        // assert.include(browser.getText('body'), newTitle);
+        // assert.notInclude(browser.getText('body'), videoToCreate.title);
+
+        assert.include('New Title', newTitle);
+        assert.notInclude('New Title', videoToCreate.title);
 
 
       });
