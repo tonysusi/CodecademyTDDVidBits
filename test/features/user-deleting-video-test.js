@@ -18,7 +18,7 @@ describe('User visits the home page', () => {
       const videoToCreate = postVideoData();
 
       browser.click('#delete');
-      browser.url('/');
+      browser.url('/videos');
 
       assert.notInclude(browser.getText('body'), videoToCreate.title);
     });

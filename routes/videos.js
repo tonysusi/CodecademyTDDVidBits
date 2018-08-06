@@ -27,24 +27,24 @@ router.get('/videos/:id/edit', async (req, res, next) => {
   res.render('videos/edit', {video: video});
 });
 
-router.post('/videos/:id/updates', async (req, res, next) => {
+router.post('/videos/:id/update', async (req, res, next) => {
   const videoId = req.params.id;
   const {title, description, url} = req.body;
-
-  const updatedVideo = await Video.updateOne({ '_id' : videoId },{ $set: { "title" : title, "description": description, "url": url } } );
-
-  if (updatedVideo.errors) {
-    res.status(400).render('videos/create', {newVideo: updatedVideo});
+  // const oldVideo = { "title" : title, "description": description, "url": url };
+  if (title == '') {
+      res.status(400).redirect('/videos/'+videoId+'/edit');
+    } else if (url == '') {
+      res.status(400).redirect('/videos/'+videoId+'/edit');
   } else {
-    res.status(302).render('videos/show', {newVideo: updatedVideo});
+
+    const updatedVideo = await Video.updateOne({ '_id' : videoId },{ $set: { "title" : title, "description": description, "url": url } } );
+    if (updatedVideo.errors) {
+      res.status(400).redirect('/videos/'+videoId+'/edit');
+    } else {
+      res.status(302).redirect('/videos/'+videoId);
+    }
   }
 });
-
-// router.get('/videos/delete', async (req, res, next) => {
-//   const videoId = '5b590bef88bfe604f0a61a4c';
-//   const videos = await Video.deleteOne({_id:videoId});
-//   // res.redirect('/');
-// });
 
 router.post('/videos', async (req, res, next) => {
   const {title, description, url} = req.body;
@@ -55,7 +55,6 @@ router.post('/videos', async (req, res, next) => {
     res.status(400).render('videos/create',{error: 'url is required', video: newVideo});
   } else {
     newVideo.validateSync();
-    // console.log(newVideo.errors);
     if (newVideo.errors) {
       res.status(400).render('videos/create', {newVideo: newVideo});
     } else {
@@ -65,9 +64,9 @@ router.post('/videos', async (req, res, next) => {
   }
 });
 
-router.post('/videos/:id/delete', async (req, res, next) => {
-  const videoId = req.params.id;
-  const videos = await Video.deleteOne({_id:videoId});
+router.post('/videos/delete', async (req, res, next) => {
+  const {id} = req.body;
+  const deletedVideo = await Video.deleteOne({_id:id});
   res.redirect('/videos');
 });
 

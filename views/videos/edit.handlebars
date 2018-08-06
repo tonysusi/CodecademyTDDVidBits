@@ -1,24 +1,28 @@
 
 <div class="contents-container" id="videos-container">
-  <h1>Edit<h1>
-  <form class="input-form" action="/videos/{{newVideo._id}}/updates" method="post" >
+  <h1>Edit</h1>
+  <form class="input-form" action="/videos/{{video.id}}/update" method="post" >
+
     {{#if error}}
       <span class="error">{{error}}</span>
     {{/if}}
+
     <label class="form-label" for="title">Title</label>
     <input id="title-input" name="title" maxlength="50" value="{{video.title}}"/>
 
     <label class="form-label" for="description">Description</label>
-    <textarea id="description-input" name=“description”>{{video.description}}</textarea>
+    <textarea id="description-input" name="description">{{video.description}}</textarea>
 
-    <label class="form-label" for="imageUrl" >Video Url</label>
+    <label class="form-label" for="url" >Video Url</label>
     <input id="url-input" name="url" value="{{video.url}}"/>
 
+    <input id="id-input" name="_id" value="{{video.id}}" type="hidden"/>
+
     <div class="form-navigation">
-      <!-- <a class="add-video-button" id="edit" href="/videos/{{newVideo._id}}/edit">Edit video</a> -->
-        <button class="input-button" id="submit-button" type="submit">
-          Update video
-        </button>
+      <button class="input-button" id="submit-button" type="submit">
+        Update video
+      </button>
     </div>
+
   </form>
 </div>

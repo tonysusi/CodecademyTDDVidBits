@@ -1,17 +1,22 @@
 <div class="contents-container" id="videos-container">
+
   <h1>Show</h1>
-    <div class="video-card">
-      <!-- <iframe class="video-player" src="https://www.youtube.com/embed/6lutNECOZFw" frameborder="0" allowfullscreen></iframe> -->
-      <div class="video-title">
-        <h1>{{newVideo.title}}</h1>
-      </div>
-      <iframe class="video-player" src="{{newVideo.url}}" frameborder="0" allowfullscreen></iframe>
-      <div class="video-description">
-        <p>{{newVideo.description}}</p>
-      </div>
+
+  <div class="video-card">
+    <div class="video-title">
+      <h1>{{newVideo.title}}</h1>
     </div>
+    <iframe class="video-player" src="{{newVideo.url}}" frameborder="0" allowfullscreen></iframe>
+    <div class="video-description">
+      <p>{{newVideo.description}}</p>
+    </div>
+  </div>
+
   <a class="add-video-button" id="edit" href="/videos/{{newVideo._id}}/edit">Edit video</a>
-  <form action="/videos/{{newVideo._id}}/delete" method="post" >
-    <input id="delete" type="submit" value="Delete video">
+
+  <form class="form__transparent" action="/videos/delete" method="post">
+    <input id="id-input" name="id" value="{{newVideo._id}}" type="hidden"/>  
+    <input class="input-button" id="delete" name="delete" type="submit" value="Delete video">
   </form>
+
 </div>

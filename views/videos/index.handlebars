@@ -1,10 +1,10 @@
 <div class="contents-container" id="videos-container">
-  <h1>Home<h1>
+  <h1>Home</h1>
     {{#each videos as |video|}}
     <div class="video-card">
     <iframe class="video-player" src="{{video.url}}" frameborder="0" allowfullscreen></iframe>
     <div class="video-title">
-      <a href="/videos/{{video._id}}">{{video.title}}</a>
+      <a href="/videos/{{video._id}}">show {{video.title}}</a>
      </div>
     </div>
     {{/each}}
